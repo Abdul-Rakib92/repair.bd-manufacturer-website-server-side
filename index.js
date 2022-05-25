@@ -94,6 +94,12 @@ async function run() {
         res.send(myOrders);
     })
 
+    app.post('/myOrder', async (req, res) => {
+        const myOrder = req.body;
+        const result = await myOrderCollection.insertOne(myOrder);
+        res.send(result);
+      })
+
 
 
 
