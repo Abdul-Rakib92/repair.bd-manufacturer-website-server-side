@@ -23,6 +23,8 @@ async function run() {
     console.log("db connected");
     const toolCollection = client.db("repairBd").collection("tool");
     const orderCollection = client.db("repairBd").collection("order");
+    const reviewCollection = client.db("repairBd").collection("review");
+    const myOrderCollection = client.db("repairBd").collection("myOrder");
 
     // tool api
     app.get("/tool", async (req, res) => {
@@ -57,14 +59,6 @@ async function run() {
 
     // Order Collection API
 
-    // app.get('/order', async(req, res) =>{
-    //     const email = req.query.email;
-    //     // console.log(email);
-    //     const query = {email: email };
-    //     const cursor = orderCollection.find(query);
-    //     const orders = await cursor.toArray();
-    //     res.send(orders);
-    // })
 
     app.get("/order", async (req, res) => {
       // const email = req.query.email;
@@ -87,7 +81,27 @@ async function run() {
       const result = await orderCollection.deleteOne(query);
       res.send(result);
     });
-  } finally {
+
+
+    //My order api
+
+    app.get('/myOrder', async(req, res) =>{
+        const email = req.query.email;
+        // console.log(email);
+        const query = {email: email };
+        const cursor = myOrderCollection.find(query);
+        const myOrders = await cursor.toArray();
+        res.send(myOrders);
+    })
+
+
+
+
+  } 
+  
+  
+  finally {
+
   }
 }
 
