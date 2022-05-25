@@ -49,16 +49,14 @@ async function run() {
     });
 
     // Delete tool
-    app.delete('/tool/:id', async (req, res) => {
-        const id = req.params.id;
-        const query = {_id: ObjectId(id)};
-        const result = await toolCollection.deleteOne(query);
-        res.send(result);
-  
-      })
+    app.delete("/tool/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await toolCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Order Collection API
-
 
     app.get("/order", async (req, res) => {
       // const email = req.query.email;
@@ -82,33 +80,40 @@ async function run() {
       res.send(result);
     });
 
-
     //My order api
 
-    app.get('/myOrder', async(req, res) =>{
-        const email = req.query.email;
-        // console.log(email);
-        const query = {email: email };
-        const cursor = myOrderCollection.find(query);
-        const myOrders = await cursor.toArray();
-        res.send(myOrders);
-    })
+    app.get("/myOrder", async (req, res) => {
+      const email = req.query.email;
+      // console.log(email);
+      const query = { email: email };
+      const cursor = myOrderCollection.find(query);
+      const myOrders = await cursor.toArray();
+      res.send(myOrders);
+    });
 
-    app.post('/myOrder', async (req, res) => {
-        const myOrder = req.body;
-        const result = await myOrderCollection.insertOne(myOrder);
-        res.send(result);
-      })
+    app.post("/myOrder", async (req, res) => {
+      const myOrder = req.body;
+      const result = await myOrderCollection.insertOne(myOrder);
+      res.send(result);
+    });
+
+    // delete myOrder
+    app.delete('/myOrder/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)};
+      const result = await myOrderCollection.deleteOne(query);
+      res.send(result);
+    })
 
 
 
 
   } 
   
-  
   finally {
 
   }
+
 }
 
 run().catch(console.dir);
