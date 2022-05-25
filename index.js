@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -20,14 +20,33 @@ async function run(){
     try{
         await client.connect();
         console.log('db connected');
-        const toolCollection = client.db('repairBd').collection('tools');
+        const toolCollection = client.db('repairBd').collection('tool');
+        const orderCollection = client.db('repairBd').collection('order')
 
+        // tool api
         app.get('/tool', async(req, res) =>{
             const query = {};
             const cursor = toolCollection.find(query);
             const tools = await cursor.toArray();
             res.send(tools);
         })
+
+        app.get('/tool/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const tool = await toolCollection.findOne(query);
+            res.send(tool);
+        });
+
+        // Order Collection API
+
+        app.post('/order', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            res.send(result);
+        })
+
+
 
     }
 
