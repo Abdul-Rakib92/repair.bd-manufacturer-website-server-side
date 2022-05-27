@@ -172,6 +172,14 @@ async function run() {
       // // }
     });
 
+    app.get('/myOrder/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)};
+      const myOrder = await myOrderCollection.findOne(query);
+      res.send(myOrder);
+    })
+
+
     app.post("/myOrder", async (req, res) => {
       const myOrder = req.body;
       const result = await myOrderCollection.insertOne(myOrder);
@@ -179,12 +187,22 @@ async function run() {
     });
 
     // delete myOrder
-    app.delete("/myOrder/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const result = await myOrderCollection.deleteOne(query);
+    app.delete("/myOrder/:email", async (req, res) => {
+      const email = req.params.email;
+
+      const filter = { email: email };
+      const result = await myOrderCollection.deleteOne(filter);
       res.send(result);
     });
+
+    // app.delete("/myOrder/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: ObjectId(id) };
+    //   const result = await myOrderCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+
+
 
     // Review collection api
     app.get("/review", async (req, res) => {
@@ -201,19 +219,53 @@ async function run() {
     });
 
     // MyProfile collection api
+
+    // app.get("/myOrder", async (req, res) => {
+    //   const email = req.query.email;
+
+    //   const query = { email: email };
+    //   const cursor = myOrderCollection.find(query);
+    //   const myOrders = await cursor.toArray();
+    //   res.send(myOrders);
+
+
+
+
     app.get("/myProfile", async (req, res) => {
-      const query = {};
+      const email = req.query.email;
+
+      const query = {  email: email };
       const cursor = myProfileCollection.find(query);
       const myProfiles = await cursor.toArray();
       res.send(myProfiles);
     });
+
+
+
+    // nicer eita delete kora jabe na
+
+
+    // app.get("/myProfile", async (req, res) => {
+    //   const query = {};
+    //   const cursor = myProfileCollection.find(query);
+    //   const myProfiles = await cursor.toArray();
+    //   res.send(myProfiles);
+    // });
 
     app.post("/myProfile", async (req, res) => {
       const newMyProfile = req.body;
       const result = await myProfileCollection.insertOne(newMyProfile);
       res.send(result);
     });
-  } finally {
+
+
+
+
+  } 
+  
+  finally {
+
+    
   }
 }
 
