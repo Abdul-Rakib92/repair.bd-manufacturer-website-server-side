@@ -176,16 +176,6 @@ async function run() {
       const myOrders = await cursor.toArray();
       res.send(myOrders);
 
-      // // const decodedEmail = req.decoded.email;
-      // // if (email === decodedEmail){
-      // //   const query = { email: email };
-      // // const cursor = myOrderCollection.find(query);
-      // // const myOrders = await cursor.toArray();
-      // // return res.send(myOrders);
-      // }
-      // // else{
-      // //   return res.status(403).send({ message: 'forbidden access' });
-      // // }
     });
 
     app.get('/myOrder/:id', async(req, res) =>{
@@ -256,45 +246,28 @@ async function run() {
 
     // MyProfile collection api
 
-    // app.get("/myOrder", async (req, res) => {
+    // app.get("/myProfile", async (req, res) => {
     //   const email = req.query.email;
 
-    //   const query = { email: email };
-    //   const cursor = myOrderCollection.find(query);
-    //   const myOrders = await cursor.toArray();
-    //   res.send(myOrders);
-
-
-
-
-    app.get("/myProfile", async (req, res) => {
-      const email = req.query.email;
-
-      const query = {  email: email };
-      const cursor = myProfileCollection.find(query);
-      const myProfiles = await cursor.toArray();
-      res.send(myProfiles);
-    });
-
-
-
-    // nicer eita delete kora jabe na
-
-
-    // app.get("/myProfile", async (req, res) => {
-    //   const query = {};
+    //   const query = {  email: email };
     //   const cursor = myProfileCollection.find(query);
     //   const myProfiles = await cursor.toArray();
     //   res.send(myProfiles);
     // });
+
+
+    app.get("/myProfile", async (req, res) => {
+      const query = {};
+      const cursor = myProfileCollection.find(query);
+      const myProfiles = await cursor.toArray();
+      res.send(myProfiles);
+    });
 
     app.post("/myProfile", async (req, res) => {
       const newMyProfile = req.body;
       const result = await myProfileCollection.insertOne(newMyProfile);
       res.send(result);
     });
-
-
 
 
   } 
